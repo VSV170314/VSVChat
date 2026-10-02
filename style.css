@@ -1,0 +1,600 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: #080b12;
+    color: #e8f7ff;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+input {
+    outline: none;
+}
+
+
+/* =========================
+   AUTH SCREEN
+========================= */
+
+#authScreen {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:
+        radial-gradient(circle at center, rgba(0, 200, 255, 0.08), transparent 45%),
+        #080b12;
+    position: relative;
+    overflow: hidden;
+}
+
+#authScreen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 200, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.035) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+.authBox {
+    width: 380px;
+    padding: 45px 40px;
+    background: rgba(12, 17, 27, 0.94);
+    border: 1px solid rgba(0, 200, 255, 0.35);
+    box-shadow:
+        0 0 30px rgba(0, 200, 255, 0.08),
+        inset 0 0 30px rgba(0, 200, 255, 0.025);
+    border-radius: 14px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.authBox h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    letter-spacing: 5px;
+    color: #00c8ff;
+    text-shadow: 0 0 15px rgba(0, 200, 255, 0.6);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: #728596;
+    margin-bottom: 35px;
+}
+
+.authBox input {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 14px;
+    padding: 0 16px;
+    background: #0a1019;
+    border: 1px solid #243442;
+    border-radius: 7px;
+    color: #e8f7ff;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.authBox input::placeholder {
+    color: #5e7080;
+}
+
+.authBox input:focus {
+    border-color: #00c8ff;
+    box-shadow: 0 0 12px rgba(0, 200, 255, 0.18);
+}
+
+#loginBtn,
+#signupBtn {
+    width: 100%;
+    height: 48px;
+    border-radius: 7px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+#loginBtn {
+    margin-top: 8px;
+    background: #00c8ff;
+    color: #031018;
+    border: none;
+}
+
+#loginBtn:hover {
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+#signupBtn {
+    margin-top: 10px;
+    background: transparent;
+    color: #00c8ff;
+    border: 1px solid #00c8ff;
+}
+
+#signupBtn:hover {
+    background: rgba(0, 200, 255, 0.08);
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.18);
+}
+
+#authStatus {
+    min-height: 20px;
+    margin-top: 18px;
+    color: #ff667d;
+    font-size: 14px;
+}
+
+
+/* =========================
+   CHAT SCREEN
+========================= */
+
+#chatScreen {
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    background: #080b12;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topBar {
+    height: 70px;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    background: #0b111a;
+    border-bottom: 1px solid #1b3543;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+}
+
+.topBar h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: #00c8ff;
+}
+
+#currentUser {
+    color: #657b8b;
+    font-size: 13px;
+}
+
+#logoutBtn {
+    background: transparent;
+    color: #7e94a3;
+    border: 1px solid #263946;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: 0.2s;
+}
+
+#logoutBtn:hover {
+    color: #ff667d;
+    border-color: #ff667d;
+}
+
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+.chatLayout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+
+/* =========================
+   CHAT SIDEBAR
+========================= */
+
+.chatSidebar {
+    width: 240px;
+    min-width: 240px;
+    background: #0a1018;
+    border-right: 1px solid #1b3543;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatSidebar h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #617888;
+    margin: 0 10px 15px;
+}
+
+.chatButton {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #78909f;
+    text-align: left;
+    padding: 12px 13px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.chatButton:hover {
+    background: rgba(0, 200, 255, 0.07);
+    color: #bcefff;
+}
+
+.chatActions {
+    margin-top: auto;
+    border-top: 1px solid #1b2933;
+    padding-top: 15px;
+}
+
+.chatActions button {
+    width: 100%;
+    padding: 11px;
+    margin-top: 8px;
+    background: transparent;
+    border: 1px solid #263946;
+    border-radius: 6px;
+    color: #7d94a4;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: 0.2s;
+}
+
+.chatActions button:hover {
+    color: #00c8ff;
+    border-color: #00c8ff;
+    background: rgba(0, 200, 255, 0.05);
+}
+
+
+/* =========================
+   MAIN CHAT
+========================= */
+
+.chatArea {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(0, 200, 255, 0.025),
+            transparent 50%
+        ),
+        #080b12;
+}
+
+.chatHeader {
+    height: 65px;
+    min-height: 65px;
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    border-bottom: 1px solid #1b2933;
+    background: rgba(10, 16, 24, 0.8);
+}
+
+.chatHeader h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #d8edf5;
+}
+
+#chatCode {
+    display: block;
+    margin-top: 3px;
+    color: #5d7585;
+    font-size: 12px;
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    scroll-behavior: smooth;
+}
+
+#messages::-webkit-scrollbar {
+    width: 7px;
+}
+
+#messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#messages::-webkit-scrollbar-thumb {
+    background: #1d3542;
+    border-radius: 10px;
+}
+
+.message {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    transition: 0.15s;
+}
+
+.message:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.message strong {
+    color: #00c8ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.message span {
+    color: #c3d0d8;
+    font-size: 16px;
+    word-break: break-word;
+}
+
+
+/* =========================
+   MESSAGE INPUT
+========================= */
+
+.messageBar {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px 20px;
+    background: #080b12;
+}
+
+#messageInput {
+    flex: 1;
+    height: 50px;
+    padding: 0 17px;
+    background: #0d141e;
+    border: 1px solid #263946;
+    border-radius: 8px;
+    color: #e8f7ff;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+#messageInput::placeholder {
+    color: #536775;
+}
+
+#messageInput:focus {
+    border-color: #00c8ff;
+    box-shadow: 0 0 12px rgba(0, 200, 255, 0.1);
+}
+
+#sendBtn {
+    width: 90px;
+    border: none;
+    border-radius: 8px;
+    background: #00c8ff;
+    color: #031018;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    transition: 0.2s;
+}
+
+#sendBtn:hover {
+    box-shadow: 0 0 18px rgba(0, 200, 255, 0.35);
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modalBox {
+    width: 360px;
+    padding: 30px;
+    background: #0d141e;
+    border: 1px solid #00c8ff;
+    border-radius: 10px;
+    box-shadow: 0 0 35px rgba(0, 200, 255, 0.12);
+}
+
+.modalBox h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #00c8ff;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.modalBox input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    margin-bottom: 12px;
+    background: #080e16;
+    border: 1px solid #263946;
+    border-radius: 6px;
+    color: white;
+    font-size: 15px;
+}
+
+.modalBox input:focus {
+    border-color: #00c8ff;
+}
+
+.modalBox button {
+    width: 100%;
+    height: 43px;
+    margin-top: 8px;
+    border-radius: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+#confirmCreateChat,
+#confirmJoinChat {
+    background: #00c8ff;
+    color: #031018;
+    border: none;
+}
+
+#cancelCreateChat,
+#cancelJoinChat {
+    background: transparent;
+    color: #718795;
+    border: 1px solid #263946;
+}
+
+#cancelCreateChat:hover,
+#cancelJoinChat:hover {
+    color: #ff667d;
+    border-color: #ff667d;
+}
+
+#createStatus,
+#joinStatus {
+    margin-top: 12px;
+    color: #ff667d;
+    font-size: 13px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .chatSidebar {
+        width: 170px;
+        min-width: 170px;
+    }
+
+    .topBar {
+        padding: 0 15px;
+    }
+
+    .topBar h1 {
+        font-size: 16px;
+    }
+
+    .chatHeader {
+        padding: 0 15px;
+    }
+
+    #messages {
+        padding: 15px;
+    }
+
+    .messageBar {
+        padding: 10px;
+    }
+
+    #sendBtn {
+        width: 65px;
+    }
+
+    .authBox {
+        width: calc(100% - 30px);
+        padding: 35px 25px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .chatSidebar {
+        width: 125px;
+        min-width: 125px;
+        padding: 20px 8px;
+    }
+
+    .chatSidebar h2 {
+        margin-left: 6px;
+    }
+
+    .chatButton {
+        font-size: 14px;
+        padding: 10px 8px;
+    }
+
+    .chatActions button {
+        font-size: 9px;
+    }
+
+    .message {
+        display: block;
+    }
+
+    .message strong {
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .messageBar {
+        gap: 6px;
+    }
+
+    #sendBtn {
+        width: 55px;
+        font-size: 9px;
+    }
+}

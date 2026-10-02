@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VSVChat</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <!-- =========================================
+         LOGIN / ACCOUNT CREATION
+    ========================================== -->
+
+    <div id="authScreen">
+
+        <div class="authBox">
+
+            <h1>VSVCHAT</h1>
+
+            <p class="subtitle">
+                CONNECT. CHAT. CREATE.
+            </p>
+
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+                maxlength="20"
+                autocomplete="username"
+            >
+
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                autocomplete="current-password"
+            >
+
+
+            <button id="loginBtn">
+                LOGIN
+            </button>
+
+
+            <button id="signupBtn">
+                CREATE ACCOUNT
+            </button>
+
+
+            <p id="authStatus"></p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CHAT APPLICATION
+    ========================================== -->
+
+    <div
+        id="chatScreen"
+        style="display: none;"
+    >
+
+        <!-- TOP BAR -->
+
+        <header class="topBar">
+
+            <div>
+
+                <h1>
+                    VSVCHAT
+                </h1>
+
+                <span id="currentUser"></span>
+
+            </div>
+
+
+            <button id="logoutBtn">
+                LOGOUT
+            </button>
+
+        </header>
+
+
+
+        <!-- MAIN CHAT LAYOUT -->
+
+        <main class="chatLayout">
+
+
+            <!-- =================================
+                 CHAT SIDEBAR
+            ================================== -->
+
+            <aside class="chatSidebar">
+
+                <h2>
+                    CHATS
+                </h2>
+
+
+                <!-- GENERAL -->
+
+                <button
+                    id="generalBtn"
+                    class="chatButton"
+                >
+                    # GENERAL
+                </button>
+
+
+                <!-- CUSTOM CHATS -->
+
+                <div id="chatList"></div>
+
+
+                <!-- CHAT ACTIONS -->
+
+                <div class="chatActions">
+
+                    <button id="createChatBtn">
+                        + CREATE CHAT
+                    </button>
+
+
+                    <button id="joinChatBtn">
+                        JOIN CHAT
+                    </button>
+
+                </div>
+
+            </aside>
+
+
+
+            <!-- =================================
+                 MAIN CHAT AREA
+            ================================== -->
+
+            <section class="chatArea">
+
+
+                <!-- CHAT HEADER -->
+
+                <div class="chatHeader">
+
+                    <div>
+
+                        <h2 id="chatTitle">
+                            # GENERAL
+                        </h2>
+
+
+                        <span id="chatCode"></span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MESSAGES -->
+
+                <div id="messages"></div>
+
+
+
+                <!-- MESSAGE INPUT -->
+
+                <div class="messageBar">
+
+                    <input
+                        type="text"
+                        id="messageInput"
+                        placeholder="Type a message..."
+                        autocomplete="off"
+                    >
+
+
+                    <button id="sendBtn">
+                        SEND
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =========================================
+         CREATE CHAT MODAL
+    ========================================== -->
+
+    <div
+        id="createChatModal"
+        class="modal"
+        style="display: none;"
+    >
+
+        <div class="modalBox">
+
+            <h2>
+                CREATE CHAT
+            </h2>
+
+
+            <!-- CHAT NAME -->
+
+            <input
+                type="text"
+                id="newChatName"
+                placeholder="Chat name"
+                maxlength="30"
+                autocomplete="off"
+            >
+
+
+            <!-- CHAT PASSWORD -->
+
+            <input
+                type="password"
+                id="newChatPassword"
+                placeholder="Chat password"
+                maxlength="50"
+                autocomplete="new-password"
+            >
+
+
+            <button id="confirmCreateChat">
+                CREATE
+            </button>
+
+
+            <button id="cancelCreateChat">
+                CANCEL
+            </button>
+
+
+            <p id="createStatus"></p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         JOIN CHAT MODAL
+    ========================================== -->
+
+    <div
+        id="joinChatModal"
+        class="modal"
+        style="display: none;"
+    >
+
+        <div class="modalBox">
+
+            <h2>
+                JOIN CHAT
+            </h2>
+
+
+            <!-- CHAT CODE -->
+
+            <input
+                type="text"
+                id="chatCodeInput"
+                placeholder="Enter chat code"
+                maxlength="6"
+                autocomplete="off"
+            >
+
+
+            <!-- CHAT PASSWORD -->
+
+            <input
+                type="password"
+                id="joinChatPassword"
+                placeholder="Chat password"
+                maxlength="50"
+                autocomplete="current-password"
+            >
+
+
+            <button id="confirmJoinChat">
+                JOIN
+            </button>
+
+
+            <button id="cancelJoinChat">
+                CANCEL
+            </button>
+
+
+            <p id="joinStatus"></p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script
+        type="module"
+        src="script.js"
+    ></script>
+
+</body>
+
+</html>
