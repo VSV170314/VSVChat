@@ -493,52 +493,69 @@ async function loadJoinedChats() {
 
     chatList.innerHTML = "";
 
-
     const chatCodes =
         Object.keys(joinedChats);
 
 
-    for (const code of chatCodes) {
+    /*
+       PERFORMANCE FIX:
 
-        try {
+       Previously each Firebase request waited
+       for the previous one to finish.
 
-            const chatDoc =
-                await getDoc(
-                    doc(
-                        db,
-                        "chats",
-                        code
-                    )
-                );
+       Now all joined chat requests happen
+       at the same time.
+
+       Functionality remains exactly the same.
+    */
+
+    await Promise.all(
+
+        chatCodes.map(
+            async (code) => {
+
+                try {
+
+                    const chatDoc =
+                        await getDoc(
+                            doc(
+                                db,
+                                "chats",
+                                code
+                            )
+                        );
 
 
-            if (!chatDoc.exists()) {
+                    if (!chatDoc.exists()) {
 
-                continue;
+                        return;
+
+                    }
+
+
+                    const data =
+                        chatDoc.data();
+
+
+                    addChatToSidebar(
+                        code,
+                        data.name
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Could not load chat:",
+                        error
+                    );
+
+                }
 
             }
+        )
 
-
-            const data =
-                chatDoc.data();
-
-
-            addChatToSidebar(
-                code,
-                data.name
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Could not load chat:",
-                error
-            );
-
-        }
-
-    }
+    );
 
 }
 
