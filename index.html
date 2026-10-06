@@ -11,6 +11,12 @@
 
     <title>VSVChat</title>
 
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
     <link
         rel="stylesheet"
         href="style.css"
@@ -23,9 +29,12 @@
          LOGIN / ACCOUNT CREATION
     ========================================== -->
 
-    <div id="authScreen">
+    <div
+        id="authScreen"
+        class="container-fluid min-vh-100 d-flex align-items-center justify-content-center px-3"
+    >
 
-        <div class="authBox">
+        <div class="authBox w-100" style="max-width: 450px;">
 
             <h1>VSVCHAT</h1>
 
@@ -33,33 +42,36 @@
                 CONNECT. CHAT. CREATE.
             </p>
 
-
             <input
                 type="text"
                 id="username"
+                class="form-control"
                 placeholder="Username"
                 maxlength="20"
                 autocomplete="username"
             >
 
-
             <input
                 type="password"
                 id="password"
+                class="form-control"
                 placeholder="Password"
                 autocomplete="current-password"
             >
 
-
-            <button id="loginBtn">
+            <button
+                id="loginBtn"
+                class="btn w-100"
+            >
                 LOGIN
             </button>
 
-
-            <button id="signupBtn">
+            <button
+                id="signupBtn"
+                class="btn w-100"
+            >
                 CREATE ACCOUNT
             </button>
-
 
             <p id="authStatus"></p>
 
@@ -68,21 +80,21 @@
     </div>
 
 
-
     <!-- =========================================
          MAIN CHAT APPLICATION
     ========================================== -->
 
     <div
         id="chatScreen"
+        class="container-fluid vh-100 p-0"
         style="display: none;"
     >
 
         <!-- TOP BAR -->
 
-        <header class="topBar">
+        <header class="topBar row g-0 align-items-center">
 
-            <div>
+            <div class="col">
 
                 <h1>
                     VSVCHAT
@@ -92,25 +104,32 @@
 
             </div>
 
+            <div class="col-auto">
 
-            <button id="logoutBtn">
-                LOGOUT
-            </button>
+                <button
+                    id="logoutBtn"
+                    class="btn"
+                >
+                    LOGOUT
+                </button>
+
+            </div>
 
         </header>
 
 
-
         <!-- MAIN CHAT LAYOUT -->
 
-        <main class="chatLayout">
+        <main class="chatLayout row g-0">
 
 
             <!-- =================================
                  CHAT SIDEBAR
             ================================== -->
 
-            <aside class="chatSidebar">
+            <aside
+                class="chatSidebar col-12 col-md-3 col-lg-3 col-xl-2"
+            >
 
                 <h2>
                     CHATS
@@ -121,7 +140,7 @@
 
                 <button
                     id="generalBtn"
-                    class="chatButton"
+                    class="chatButton btn w-100 text-start"
                 >
                     # GENERAL
                 </button>
@@ -136,12 +155,17 @@
 
                 <div class="chatActions">
 
-                    <button id="createChatBtn">
+                    <button
+                        id="createChatBtn"
+                        class="btn w-100"
+                    >
                         + CREATE CHAT
                     </button>
 
-
-                    <button id="joinChatBtn">
+                    <button
+                        id="joinChatBtn"
+                        class="btn w-100"
+                    >
                         JOIN CHAT
                     </button>
 
@@ -150,12 +174,13 @@
             </aside>
 
 
-
             <!-- =================================
                  MAIN CHAT AREA
             ================================== -->
 
-            <section class="chatArea">
+            <section
+                class="chatArea col-12 col-md-9 col-lg-9 col-xl-10"
+            >
 
 
                 <!-- CHAT HEADER -->
@@ -168,7 +193,6 @@
                             # GENERAL
                         </h2>
 
-
                         <span id="chatCode"></span>
 
                     </div>
@@ -176,11 +200,9 @@
                 </div>
 
 
-
                 <!-- MESSAGES -->
 
                 <div id="messages"></div>
-
 
 
                 <!-- MESSAGE INPUT -->
@@ -190,12 +212,15 @@
                     <input
                         type="text"
                         id="messageInput"
+                        class="form-control"
                         placeholder="Type a message..."
                         autocomplete="off"
                     >
 
-
-                    <button id="sendBtn">
+                    <button
+                        id="sendBtn"
+                        class="btn"
+                    >
                         SEND
                     </button>
 
@@ -208,7 +233,6 @@
     </div>
 
 
-
     <!-- =========================================
          CREATE CHAT MODAL
     ========================================== -->
@@ -219,41 +243,48 @@
         style="display: none;"
     >
 
-        <div class="modalBox">
+        <div
+            class="modalBox container-fluid"
+            style="max-width: 450px;"
+        >
 
             <h2>
                 CREATE CHAT
             </h2>
 
 
-            <!-- CHAT NAME -->
-
             <input
                 type="text"
                 id="newChatName"
+                class="form-control"
                 placeholder="Chat name"
                 maxlength="30"
                 autocomplete="off"
             >
 
 
-            <!-- CHAT PASSWORD -->
-
             <input
                 type="password"
                 id="newChatPassword"
+                class="form-control"
                 placeholder="Chat password"
                 maxlength="50"
                 autocomplete="new-password"
             >
 
 
-            <button id="confirmCreateChat">
+            <button
+                id="confirmCreateChat"
+                class="btn w-100"
+            >
                 CREATE
             </button>
 
 
-            <button id="cancelCreateChat">
+            <button
+                id="cancelCreateChat"
+                class="btn w-100"
+            >
                 CANCEL
             </button>
 
@@ -263,7 +294,6 @@
         </div>
 
     </div>
-
 
 
     <!-- =========================================
@@ -276,41 +306,48 @@
         style="display: none;"
     >
 
-        <div class="modalBox">
+        <div
+            class="modalBox container-fluid"
+            style="max-width: 450px;"
+        >
 
             <h2>
                 JOIN CHAT
             </h2>
 
 
-            <!-- CHAT CODE -->
-
             <input
                 type="text"
                 id="chatCodeInput"
+                class="form-control"
                 placeholder="Enter chat code"
                 maxlength="6"
                 autocomplete="off"
             >
 
 
-            <!-- CHAT PASSWORD -->
-
             <input
                 type="password"
                 id="joinChatPassword"
+                class="form-control"
                 placeholder="Chat password"
                 maxlength="50"
                 autocomplete="current-password"
             >
 
 
-            <button id="confirmJoinChat">
+            <button
+                id="confirmJoinChat"
+                class="btn w-100"
+            >
                 JOIN
             </button>
 
 
-            <button id="cancelJoinChat">
+            <button
+                id="cancelJoinChat"
+                class="btn w-100"
+            >
                 CANCEL
             </button>
 
@@ -322,9 +359,17 @@
     </div>
 
 
+    <!-- =========================================
+         BOOTSTRAP JS
+    ========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
 
     <!-- =========================================
-         JAVASCRIPT
+         VSVCHAT JAVASCRIPT
     ========================================== -->
 
     <script
