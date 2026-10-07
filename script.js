@@ -202,7 +202,9 @@ async function hashPassword(password, salt) {
     return hashArray
         .map(
             byte =>
-                byte.toString(16).padStart(2, "0")
+                byte
+                    .toString(16)
+                    .padStart(2, "0")
         )
         .join("");
 
@@ -223,7 +225,9 @@ function generateSalt() {
     return Array.from(array)
         .map(
             byte =>
-                byte.toString(16).padStart(2, "0")
+                byte
+                    .toString(16)
+                    .padStart(2, "0")
         )
         .join("");
 
@@ -399,11 +403,11 @@ loginBtn.addEventListener(
 
             if (
                 error.code ===
-                "auth/invalid-credential" ||
+                    "auth/invalid-credential" ||
                 error.code ===
-                "auth/user-not-found" ||
+                    "auth/user-not-found" ||
                 error.code ===
-                "auth/wrong-password"
+                    "auth/wrong-password"
             ) {
 
                 authStatus.textContent =
@@ -486,76 +490,57 @@ async function loadUserData(user) {
 
 
 /* =========================================
-   LOAD JOINED CHATS INTO SIDEBAR
+   LOAD JOINED CHATS
 ========================================= */
 
 async function loadJoinedChats() {
 
     chatList.innerHTML = "";
 
+
     const chatCodes =
         Object.keys(joinedChats);
 
 
-    /*
-       PERFORMANCE FIX:
+    for (const code of chatCodes) {
 
-       Previously each Firebase request waited
-       for the previous one to finish.
+        try {
 
-       Now all joined chat requests happen
-       at the same time.
-
-       Functionality remains exactly the same.
-    */
-
-    await Promise.all(
-
-        chatCodes.map(
-            async (code) => {
-
-                try {
-
-                    const chatDoc =
-                        await getDoc(
-                            doc(
-                                db,
-                                "chats",
-                                code
-                            )
-                        );
+            const chatDoc =
+                await getDoc(
+                    doc(
+                        db,
+                        "chats",
+                        code
+                    )
+                );
 
 
-                    if (!chatDoc.exists()) {
-
-                        return;
-
-                    }
-
-
-                    const data =
-                        chatDoc.data();
-
-
-                    addChatToSidebar(
-                        code,
-                        data.name
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Could not load chat:",
-                        error
-                    );
-
-                }
-
+            if (!chatDoc.exists()) {
+                continue;
             }
-        )
 
-    );
+
+            const data =
+                chatDoc.data();
+
+
+            addChatToSidebar(
+                code,
+                data.name
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Could not load chat:",
+                error
+            );
+
+        }
+
+    }
 
 }
 
@@ -604,7 +589,7 @@ async function saveChatMembership(
 
 onAuthStateChanged(
     auth,
-    async (user) => {
+    async user => {
 
         if (user) {
 
@@ -618,9 +603,6 @@ onAuthStateChanged(
             await loadUserData(user);
 
             await loadJoinedChats();
-
-
-            /* ALWAYS OPEN GENERAL */
 
             await openChat("GENERAL");
 
@@ -680,8 +662,6 @@ async function openChat(chatId) {
     if (!user) return;
 
 
-    /* GENERAL IS ALWAYS AVAILABLE */
-
     if (chatId !== "GENERAL") {
 
         if (!joinedChats[chatId]) {
@@ -706,8 +686,6 @@ async function openChat(chatId) {
     chatCodeDisplay.textContent = "";
 
 
-    /* GENERAL */
-
     if (chatId === "GENERAL") {
 
         chatTitle.textContent =
@@ -716,12 +694,7 @@ async function openChat(chatId) {
         chatCodeDisplay.textContent =
             "Everyone can join this chat.";
 
-    }
-
-
-    /* CUSTOM CHAT */
-
-    else {
+    } else {
 
         const chatDoc =
             await getDoc(
@@ -757,16 +730,12 @@ async function openChat(chatId) {
     }
 
 
-    /* REMOVE OLD LISTENER */
-
     if (unsubscribeMessages) {
 
         unsubscribeMessages();
 
     }
 
-
-    /* MESSAGE COLLECTION */
 
     const messagesRef =
         collection(
@@ -787,8 +756,6 @@ async function openChat(chatId) {
         );
 
 
-    /* REAL-TIME LISTENER */
-
     unsubscribeMessages =
         onSnapshot(
             messagesQuery,
@@ -800,10 +767,9 @@ async function openChat(chatId) {
                 snapshot.forEach(
                     messageDoc => {
 
-                        const data =
-                            messageDoc.data();
-
-                        displayMessage(data);
+                        displayMessage(
+                            messageDoc.data()
+                        );
 
                     }
                 );
@@ -945,6 +911,8 @@ messageInput.addEventListener(
 
         if (event.key === "Enter") {
 
+            event.preventDefault();
+
             sendMessage();
 
         }
@@ -968,7 +936,7 @@ generalBtn.addEventListener(
 
 
 /* =========================================
-   CREATE CHAT
+   CREATE CHAT MODAL
 ========================================= */
 
 createChatBtn.addEventListener(
@@ -1002,7 +970,7 @@ cancelCreateChat.addEventListener(
 
 
 /* =========================================
-   CONFIRM CREATE CHAT
+   CREATE CHAT
 ========================================= */
 
 confirmCreateChat.addEventListener(
@@ -1042,8 +1010,37 @@ confirmCreateChat.addEventListener(
                 "Creating...";
 
 
-            const code =
+            let code =
                 generateChatCode();
+
+
+            /* MAKE SURE CODE IS UNIQUE */
+
+            let existingChat =
+                await getDoc(
+                    doc(
+                        db,
+                        "chats",
+                        code
+                    )
+                );
+
+
+            while (existingChat.exists()) {
+
+                code =
+                    generateChatCode();
+
+                existingChat =
+                    await getDoc(
+                        doc(
+                            db,
+                            "chats",
+                            code
+                        )
+                    );
+
+            }
 
 
             const salt =
@@ -1056,8 +1053,6 @@ confirmCreateChat.addEventListener(
                     salt
                 );
 
-
-            /* CREATE CHAT */
 
             await setDoc(
                 doc(
@@ -1090,15 +1085,11 @@ confirmCreateChat.addEventListener(
             );
 
 
-            /* SAVE MEMBERSHIP */
-
             await saveChatMembership(
                 code,
                 name
             );
 
-
-            /* ADD TO SIDEBAR */
 
             addChatToSidebar(
                 code,
@@ -1106,13 +1097,9 @@ confirmCreateChat.addEventListener(
             );
 
 
-            /* CLOSE MODAL */
-
             createChatModal.style.display =
                 "none";
 
-
-            /* OPEN CHAT */
 
             await openChat(code);
 
@@ -1171,7 +1158,7 @@ function generateChatCode() {
 
 
 /* =========================================
-   JOIN CHAT
+   JOIN CHAT MODAL
 ========================================= */
 
 joinChatBtn.addEventListener(
@@ -1205,7 +1192,7 @@ cancelJoinChat.addEventListener(
 
 
 /* =========================================
-   CONFIRM JOIN CHAT
+   JOIN CHAT
 ========================================= */
 
 confirmJoinChat.addEventListener(
@@ -1216,7 +1203,6 @@ confirmJoinChat.addEventListener(
             chatCodeInput.value
                 .trim()
                 .toUpperCase();
-
 
         const password =
             joinChatPassword.value;
@@ -1248,8 +1234,6 @@ confirmJoinChat.addEventListener(
                 "Checking chat...";
 
 
-            /* FIND CHAT */
-
             const chatDoc =
                 await getDoc(
                     doc(
@@ -1274,16 +1258,12 @@ confirmJoinChat.addEventListener(
                 chatDoc.data();
 
 
-            /* HASH ENTERED PASSWORD */
-
             const enteredHash =
                 await hashPassword(
                     password,
                     data.passwordSalt
                 );
 
-
-            /* CHECK PASSWORD */
 
             if (
                 enteredHash !==
@@ -1298,15 +1278,11 @@ confirmJoinChat.addEventListener(
             }
 
 
-            /* SAVE MEMBERSHIP */
-
             await saveChatMembership(
                 code,
                 data.name
             );
 
-
-            /* ADD SIDEBAR */
 
             addChatToSidebar(
                 code,
@@ -1314,13 +1290,9 @@ confirmJoinChat.addEventListener(
             );
 
 
-            /* CLOSE MODAL */
-
             joinChatModal.style.display =
                 "none";
 
-
-            /* OPEN CHAT */
 
             await openChat(code);
 
@@ -1346,8 +1318,6 @@ function addChatToSidebar(
     code,
     name
 ) {
-
-    /* DON'T ADD DUPLICATES */
 
     if (
         document.querySelector(
@@ -1393,3 +1363,66 @@ function addChatToSidebar(
     );
 
 }
+
+
+/* =========================================
+   CLOSE MODALS WHEN CLICKING OUTSIDE
+========================================= */
+
+createChatModal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            createChatModal
+        ) {
+
+            createChatModal.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+joinChatModal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            joinChatModal
+        ) {
+
+            joinChatModal.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   ESCAPE KEY
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key !== "Escape") {
+            return;
+        }
+
+
+        createChatModal.style.display =
+            "none";
+
+        joinChatModal.style.display =
+            "none";
+
+    }
+);
